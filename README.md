@@ -13,7 +13,7 @@ It also requires that you run it as root unless you want to spend an afternoon p
     git clone git@github.com:nmilford/stormLauncher.git
     cd stormLauncher
     chmod +x stormLauncher.py
-    sudo ./
+    sudo ./stormLauncher.py
 
 ## Usage:
 
