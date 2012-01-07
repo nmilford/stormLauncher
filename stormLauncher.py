@@ -27,11 +27,10 @@
 # This script requires PyUSB 1.0+, apt in Debian/Ubuntu installs 0.4.
 # Also, unless you want to toggle with udev rules, it needs to be run as root
 
-# Use w, s, x and d to aim.  Sse the left shift button to fire.
+# Use arrows to aim.  Sse the left enter to fire.
 
 import os
 import sys
-import time
 import usb.core
 from Tkinter import *
 
@@ -51,7 +50,7 @@ class launchControl(Frame):
 
       self.message1 = StringVar()
       self.line1 = Label(self, textvariable = self.message1)
-      self.message1.set("Aim (w/s/a/f) & Fire (left shift)!")
+      self.message1.set("Aim (arrow keys) & Fire (return)!")
       self.line1.pack()
 
       self.message2 = StringVar()
@@ -59,36 +58,43 @@ class launchControl(Frame):
       self.message2.set("")
       self.line2.pack()
 
-      self.master.bind("<KeyPress>", self.keyPressed)
-      self.master.bind("<KeyRelease>", self.keyReleased)
+      self.master.bind("<KeyPress-Up>", self.turretUp)
+      self.master.bind("<KeyRelease-Up>", self.turretStop)
 
-      self.master.bind("<KeyPress-Shift_L>", self.shiftPressed)
-      self.master.bind("<KeyRelease-Shift_L>", self.shiftReleased)
+      self.master.bind("<KeyPress-Down>", self.turretDown)
+      self.master.bind("<KeyRelease-Down>", self.turretStop)
 
-   def keyPressed(self, event):
-      if event.char == "w" or event.char == "W":
-         self.message1.set("Turret Up.")
-         self.dev.ctrl_transfer(0x21,0x09,0,0,[0x02,0x02,0x00,0x00,0x00,0x00,0x00,0x00]) 
-      elif event.char == "s" or event.char == "S":
-         self.message1.set("Turret Down.")
-         self.dev.ctrl_transfer(0x21,0x09,0,0,[0x02,0x01,0x00,0x00,0x00,0x00,0x00,0x00])
-      elif event.char == "a" or event.char == "A":
-         self.message1.set("Turret Left.")
-         self.dev.ctrl_transfer(0x21,0x09,0,0,[0x02,0x04,0x00,0x00,0x00,0x00,0x00,0x00])
-      elif event.char == "d" or event.char == "D":
-         self.message1.set("Turret Right.")
-         self.dev.ctrl_transfer(0x21,0x09,0,0,[0x02,0x08,0x00,0x00,0x00,0x00,0x00,0x00])
-   
-   def keyReleased(self, event):
-      self.message1.set("Turret Idle.")
+      self.master.bind("<KeyPress-Left>", self.turretLeft)
+      self.master.bind("<KeyRelease-Left>", self.turretStop)
+
+      self.master.bind("<KeyPress-Right>", self.turretRight)
+      self.master.bind("<KeyRelease-Right>", self.turretStop)
+
+      self.master.bind("<KeyPress-Return>", self.turretFire)
+
+   def turretUp(self, event):
+      self.message1.set("Turret Up.")
+      self.dev.ctrl_transfer(0x21,0x09,0,0,[0x02,0x02,0x00,0x00,0x00,0x00,0x00,0x00]) 
+
+   def turretDown(self, event):
+      self.message1.set("Turret Down.")
+      self.dev.ctrl_transfer(0x21,0x09,0,0,[0x02,0x01,0x00,0x00,0x00,0x00,0x00,0x00])
+
+   def turretLeft(self, event):
+      self.message1.set("Turret Left.")
+      self.dev.ctrl_transfer(0x21,0x09,0,0,[0x02,0x04,0x00,0x00,0x00,0x00,0x00,0x00])
+
+   def turretRight(self, event):
+      self.message1.set("Turret Right.")
+      self.dev.ctrl_transfer(0x21,0x09,0,0,[0x02,0x08,0x00,0x00,0x00,0x00,0x00,0x00])
+
+   def turretStop(self, event):
       self.dev.ctrl_transfer(0x21,0x09,0,0,[0x02,0x20,0x00,0x00,0x00,0x00,0x00,0x00])
-   
-   def shiftPressed(self, event):
+
+   def turretFire(self, event):
       self.message1.set("FIRE!")
       self.dev.ctrl_transfer(0x21,0x09,0,0,[0x02,0x10,0x00,0x00,0x00,0x00,0x00,0x00])
 
-   def shiftReleased(self, event):
-      self.message1.set("Turret Idle.")
 
 if __name__ == '__main__':
    if not os.geteuid() == 0:

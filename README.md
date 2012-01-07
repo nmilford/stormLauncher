@@ -17,5 +17,5 @@ It also requires that you run it as root unless you want to spend an afternoon p
 
 ## Usage:
 
-* Use w, s, a and d to aim.
-* Use left-shift to fire.
+* Use arrow keys aim.
+* Press return to fire.
