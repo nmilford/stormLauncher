@@ -1,5 +1,7 @@
 ![](https://github.com/nmilford/stormLauncher/raw/master/stormLauncher.png)
 
+# Storm Launcher
+
 Controls the Dream Cheeky [O.I.C Storm](http://www.dreamcheeky.com/storm-oic-missile-launcher) & [Thunder](http://www.dreamcheeky.com/thunder-missile-launcher) USB Missile Launchers.  
 
 There are a few projects for using older launchers in Linux, but I couldn't find any for this launcher, so... enjoy.
