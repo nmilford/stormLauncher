@@ -1,3 +1,5 @@
+![](https://github.com/nmilford/stormLauncher/raw/master/stormLauncher.png)
+
 # Storm Launcher
 
 Controls the Dream Cheeky [O.I.C Storm](http://www.dreamcheeky.com/storm-oic-missile-launcher) & [Thunder](http://www.dreamcheeky.com/thunder-missile-launcher) USB Missile Launchers.  
