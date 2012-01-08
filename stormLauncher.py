@@ -29,10 +29,16 @@
 
 # Use arrows to aim.  Sse the left enter to fire.
 
+# BTW, Leeroy Jenkins Mode .wav is from: http://www.leeroyjenkins.net/soundbites/warcry.wav
+
 import os
 import sys
+import time
+import pygame
 import usb.core
 from Tkinter import *
+
+wavFile = "warcry.wav"
 
 class launchControl(Frame):
    def __init__(self):
@@ -46,17 +52,17 @@ class launchControl(Frame):
       Frame.__init__(self)
       self.pack()
       self.master.title("Launch Control")
-      self.master.geometry("250x25")
+      self.master.geometry("220x40")
 
       self.message1 = StringVar()
       self.line1 = Label(self, textvariable = self.message1)
       self.message1.set("Aim (arrow keys) & Fire (return)!")
       self.line1.pack()
 
-      self.message2 = StringVar()
-      self.line2 = Label(self, textvariable = self.message2 )
-      self.message2.set("")
-      self.line2.pack()
+      if os.path.isfile(wavFile):
+         self.hasSound = IntVar()
+         self.check1 = Checkbutton(self, text = "Leeroy Jenkins Mode?", variable = self.hasSound, onvalue = 1, offvalue = 0)
+         self.check1.pack()
 
       self.master.bind("<KeyPress-Up>", self.turretUp)
       self.master.bind("<KeyRelease-Up>", self.turretStop)
@@ -93,6 +99,14 @@ class launchControl(Frame):
 
    def turretFire(self, event):
       self.message1.set("FIRE!")
+
+      if os.path.isfile(wavFile):
+         if self.hasSound.get() == 1:
+            pygame.init()
+            sound = pygame.mixer.Sound("warcry.wav")
+            sound.play()
+            time.sleep(3)
+
       self.dev.ctrl_transfer(0x21,0x09,0,0,[0x02,0x10,0x00,0x00,0x00,0x00,0x00,0x00])
 
 
