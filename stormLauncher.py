@@ -24,7 +24,9 @@
 # Thunder: http://www.dreamcheeky.com/thunder-missile-launcher
 # O.I.C Storm: http://www.dreamcheeky.com/storm-oic-missile-launcher
 
-# This script requires PyUSB 1.0+, apt in Debian/Ubuntu installs 0.4.
+# This script requires:
+# * PyUSB 1.0+, apt in Debian/Ubuntu installs 0.4.
+# * The ImageTk library. On Debian/Ubuntu 'sudo apt-get install python-imaging-tk'
 # Also, unless you want to toggle with udev rules, it needs to be run as root
 
 # Use arrows to aim.  Sse the left enter to fire.
@@ -37,8 +39,10 @@ import time
 import pygame
 import usb.core
 from Tkinter import *
+from PIL import Image, ImageTk
 
-wavFile = "warcry.wav"
+wavFile  = "warcry.wav"
+logoFile = "stormLauncher.png"
 
 class launchControl(Frame):
    def __init__(self):
@@ -52,7 +56,13 @@ class launchControl(Frame):
       Frame.__init__(self)
       self.pack()
       self.master.title("Launch Control")
-      self.master.geometry("220x40")
+      self.master.geometry("400x90")
+
+      self.logo = ImageTk.PhotoImage(Image.open(logoFile))
+
+      self.panel1 = Label(self, image=self.logo)
+      self.panel1.pack(side='top', fill='both', expand='yes')
+      self.panel1.image = self.logo
 
       self.message1 = StringVar()
       self.line1 = Label(self, textvariable = self.message1)
